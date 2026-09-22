@@ -43,7 +43,7 @@ export const site_info = {
   // Each string is revealed as its own line in the Home hero (staggered).
   hero_lines: ['Motion that', 'makes people', 'stop scrolling.'],
   intro:
-    'I’m Jimi, an independent motion designer and art director. I build identities, animations and websites that feel alive — playful, precise and a little bit loud.',
+    'I’m Jimi, an independent motion designer and art director. I build identities, animations and creatives that feel alive — playful, precise and a little bit loud.',
   email: 'hello@jimi.design',
   phone: '+234 812 121 2577',
   location: 'Lagos · Remote worldwide',
