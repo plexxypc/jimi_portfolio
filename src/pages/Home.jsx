@@ -97,15 +97,15 @@ export default function Home() {
 
         <div className="shell">
           <motion.div style={reduced_motion ? undefined : { opacity: hero_text_opacity }}>
-            <motion.p
+           {/* <motion.p
               className="tag-pill mb-8"
               initial={{ opacity: 0, y: -12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ ...springs.bouncy, delay: 0.1 }}
             >
-              <span className="inline-block h-2 w-2 animate-pulse rounded-full bg-coral" />
-              {site_info.availability}
-            </motion.p>
+              {/*<span className="inline-block h-2 w-2 animate-pulse rounded-full bg-coral" />
+              {/*{site_info.availability}
+            </motion.p>*/}
 
             <RevealText
               lines={site_info.hero_lines}

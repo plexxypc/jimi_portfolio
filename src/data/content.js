@@ -45,7 +45,7 @@ export const site_info = {
   intro:
     'I’m Jimi, an independent motion designer and art director. I build identities, animations and websites that feel alive — playful, precise and a little bit loud.',
   email: 'hello@jimi.design',
-  phone: '+1 (555) 014-9922',
+  phone: '+234 812 121 2577',
   location: 'Lagos · Remote worldwide',
   availability: 'Taking on new projects for Q3',
   since: '2019',
