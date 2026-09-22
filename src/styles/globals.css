@@ -1,0 +1,137 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ===========================================================================
+   DESIGN TOKENS
+   Single source of truth for the palette. Values are space-separated RGB
+   channels so Tailwind can apply opacity modifiers (e.g. `bg-coral/20`).
+   Swap the accents below to re-skin the entire site.
+   =========================================================================== */
+:root {
+  --color-cream: 253 248 240; /* #FDF8F0 — base background (warm off-white) */
+  --color-sand: 244 235 222; /* #F4EBDE — subtle secondary surface */
+  --color-ink: 22 19 17; /* #161311 — primary text */
+  --color-muted: 110 100 92; /* #6E645C — secondary text */
+
+  --color-coral: 255 90 60; /* #FF5A3C — primary accent (CTAs, hovers) */
+  --color-lime: 198 255 61; /* #C6FF3D — secondary accent (highlights) */
+  --color-cobalt: 42 61 232; /* #2A3DE8 — tertiary accent (links, blobs) */
+
+  --nav-height: 5rem;
+}
+
+@layer base {
+  html {
+    /* Lenis drives scrolling; native smooth-scroll would fight it. */
+    scroll-behavior: auto;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-cream font-body text-ink antialiased;
+    /* `overscroll-behavior` stops the page rubber-banding over Lenis. */
+    overscroll-behavior-y: none;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display font-semibold;
+    text-wrap: balance;
+  }
+
+  ::selection {
+    @apply bg-lime text-ink;
+  }
+
+  /* Focus ring that survives the playful styling — keep for accessibility. */
+  :focus-visible {
+    @apply outline-none ring-4 ring-cobalt/40 ring-offset-2 ring-offset-cream;
+  }
+
+  /* Lenis requirements */
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+
+  .lenis.lenis-stopped {
+    overflow: hidden;
+  }
+}
+
+@layer components {
+  /* Page gutter used by every section so rhythm stays consistent. */
+  .shell {
+    @apply mx-auto w-full max-w-[88rem] px-5 sm:px-8 lg:px-12;
+  }
+
+  .eyebrow {
+    @apply font-display text-xs font-medium uppercase tracking-[0.22em] text-muted;
+  }
+
+  .tag-pill {
+    @apply inline-flex items-center gap-2 rounded-pill border border-ink/10 bg-cream/70 px-3 py-1
+           font-display text-xs font-medium uppercase tracking-[0.14em] backdrop-blur;
+  }
+
+  /* Soft organic background decoration. Pair with `animate-blob_drift`. */
+  .blob {
+    @apply pointer-events-none absolute -z-10 rounded-blob blur-2xl;
+  }
+
+  /* Underline that wipes in on hover — used by nav + inline links. */
+  .link-wipe {
+    @apply relative inline-block;
+  }
+
+  .link-wipe::after {
+    content: '';
+    @apply absolute -bottom-0.5 left-0 h-[2px] w-full origin-right scale-x-0 bg-coral
+           transition-transform duration-300 ease-springy;
+  }
+
+  .link-wipe:hover::after,
+  .link-wipe[data-active='true']::after {
+    @apply origin-left scale-x-100;
+  }
+}
+
+@layer utilities {
+  .text-stroke {
+    -webkit-text-stroke: 2px rgb(var(--color-ink));
+    color: transparent;
+  }
+
+  .mask-fade-x {
+    mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+  }
+
+  /* Hides the OS cursor where the custom cursor takes over (pointer devices
+     only — see CustomCursor.jsx, which only mounts on fine pointers). */
+  .cursor-none-fine {
+    cursor: none;
+  }
+}
+
+/* ===========================================================================
+   REDUCED MOTION
+   Non-essential motion is disabled here, and JS animation is gated on
+   `useReducedMotion()` / `prefers_reduced_motion()` in src/lib/motion.js.
+   =========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

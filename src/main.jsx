@@ -1,0 +1,24 @@
+/**
+ * Entry point.
+ *
+ * BrowserRouter lives here (outside <App />) because the shell itself needs
+ * router context — SmoothScroll and Navbar both read the current location.
+ *
+ * Deploying to a subpath? Pass `basename="/subpath"` to BrowserRouter and set
+ * `base` in vite.config.js to match.
+ */
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import { BrowserRouter } from 'react-router-dom';
+import App from './App';
+import './styles/globals.css';
+
+const root_element = document.getElementById('root');
+
+createRoot(root_element).render(
+  <StrictMode>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </StrictMode>,
+);
