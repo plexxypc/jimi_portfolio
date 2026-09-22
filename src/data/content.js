@@ -448,7 +448,7 @@ export const founder = {
   name: 'Jimi',
   role: 'Motion Designer & Art Director',
   bio: 'Placeholder copy: ten years of moving pixels for brands big and small. Type nerd turned interaction designer. Believes a good overshoot fixes most things.',
-  portrait: 'https://picsum.photos/seed/jimi-portrait/900/1100',
+  portrait: './public/media/portrait.png',
 };
 
 /**

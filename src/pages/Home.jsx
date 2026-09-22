@@ -57,6 +57,8 @@ export default function Home() {
   const hero_visual_y = useTransform(hero_progress, [0, 1], ['0%', '18%']);
   const hero_visual_scale = useTransform(hero_progress, [0, 1], [1, 1.12]);
   const hero_text_opacity = useTransform(hero_progress, [0, 0.7], [1, 0]);
+  // Portrait drifts up against the page scroll, so it separates from the copy.
+  const hero_portrait_y = useTransform(hero_progress, [0, 1], ['0%', '-12%']);
 
   // Statement: each word lifts from muted to ink as it scrubs through view.
   useEffect(() => {
@@ -95,7 +97,9 @@ export default function Home() {
         <Blob accent="lime" className="-right-20 top-56 h-[26rem] w-[26rem]" delay={2.5} />
         <Blob accent="cobalt" className="bottom-0 left-1/3 h-72 w-72 opacity-70" delay={5} />
 
-        <div className="shell">
+        {/* Two columns from `lg` up: copy left, portrait right. Below that they
+            stack, copy first. */}
+        <div className="shell grid items-center gap-14 lg:grid-cols-[1.05fr_0.95fr] lg:gap-12">
           <motion.div style={reduced_motion ? undefined : { opacity: hero_text_opacity }}>
            {/* <motion.p
               className="tag-pill mb-8"
@@ -107,21 +111,23 @@ export default function Home() {
               {/*{site_info.availability}
             </motion.p>*/}
 
+            {/* `text-giant` rather than `text-mega`: the headline now shares the
+                row with the portrait, so it needs the smaller fluid scale. */}
             <RevealText
               lines={site_info.hero_lines}
               as="h1"
-              className="text-mega"
+              className="text-giant"
               stagger={0.11}
               delay={0.15}
             />
 
             <motion.div
-              className="mt-10 flex flex-col gap-6 sm:flex-row sm:items-center"
+              className="mt-10 flex flex-col gap-8"
               variants={stagger_container(0.1, 0.6)}
               initial="hidden"
               animate="visible"
             >
-              <motion.p variants={fade_up(18)} className="max-w-md text-lg leading-relaxed text-muted">
+              <motion.p variants={fade_up(18)} className="max-w-xl text-lg leading-relaxed text-muted">
                 {site_info.tagline} {site_info.intro}
               </motion.p>
 
@@ -147,6 +153,49 @@ export default function Home() {
                 </MagneticButton>
               </motion.div>
             </motion.div>
+          </motion.div>
+
+          {/* ── Hero portrait ────────────────────────────────────────────
+              REPLACE: swap /public/media/jimi-portrait.jpg for your own shot.
+              The source photo is shot on pure black, so the panel behind it is
+              `bg-black` and the 4:5 ratio matches the file exactly — no visible
+              seam between photo and panel. If you swap in a cut-out with a
+              transparent background, drop `bg-black` and the panel disappears. */}
+          <motion.div
+            className="relative mx-auto w-full max-w-sm sm:max-w-md lg:max-w-none"
+            initial={reduced_motion ? { opacity: 0 } : { opacity: 0, y: 48, scale: 0.94, rotate: 3 }}
+            animate={{ opacity: 1, y: 0, scale: 1, rotate: 0 }}
+            transition={{ ...springs.heavy, delay: 0.35 }}
+            style={reduced_motion ? undefined : { y: hero_portrait_y }}
+          >
+            <Blob accent="lime" className="-bottom-8 -right-6 h-56 w-56 opacity-80" delay={1.5} />
+
+            <motion.div
+              className="relative overflow-hidden rounded-[2.5rem] bg-black shadow-lift"
+              whileHover={reduced_motion ? undefined : { rotate: -1.4, scale: 1.02 }}
+              transition={springs.bouncy}
+              data-cursor="That’s me"
+              data-cursor-icon="👋"
+              data-cursor-accent="lime"
+            >
+              {/* The file is 4:5; the 3:4 panel trims the empty black at the
+                  sides so the figure fills more of the frame. `object-bottom`
+                  keeps his feet anchored to the bottom edge. */}
+              <img
+                src="/media/jimi-portrait.jpg"
+                alt={`${site_info.name} — ${site_info.role}`}
+                width="819"
+                height="1024"
+                loading="eager"
+                className="aspect-[3/4] w-full scale-[1.06] object-cover object-bottom"
+              />
+            </motion.div>
+
+            {/* Playful sticker overlapping the panel edge. Sits top-left, where
+                the photo is empty, so it never covers him. */}
+            <span className="tag-pill absolute -top-3 left-4 -rotate-3 bg-cream shadow-lift sm:left-8">
+              {site_info.role}
+            </span>
           </motion.div>
         </div>
 
